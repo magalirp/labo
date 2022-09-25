@@ -13,7 +13,7 @@ require("ranger")
 require("randomForest")  #solo se usa para imputar nulos
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/mrp1616/")  #Establezco el Working Directory
+setwd("/Users/magal/OneDrive/Escritorio/EYF_22")  #Establezco el Working Directory
 
 #cargo los datos donde entreno
 dataset  <- fread("./datasets/competencia2_2022.csv", stringsAsFactors= TRUE)
