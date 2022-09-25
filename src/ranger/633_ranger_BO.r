@@ -145,10 +145,10 @@ EstimarGanancia_ranger  <- function( x )
 #Aqui comienza el programa
 
 #Aqui se debe poner la carpeta de la computadora local
-setwd("~/buckets/mrp1616/")   #Establezco el Working Directory
+setwd("~/buckets/b1/")   #Establezco el Working Directory
 
 #cargo el dataset donde voy a entrenar el modelo
-dataset  <- fread("./datasets/competencia2_2022.csv", stringsAsFactors= TRUE)   #donde entreno
+dataset  <- fread("./datasets/competencia2_2022_fe2.csv", stringsAsFactors= TRUE)   #donde entreno
 
 dataset  <- dataset[ foto_mes==202103 ]
 
