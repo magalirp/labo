@@ -83,7 +83,7 @@ fwrite( dataset,
 
 ----------------------------------------------------------------------------------------------------------------------------------
 #### RANKEO LAS NUEVAS VARIABLES + LAS RELACIONADAS A PROBLEMAS DE DATA DRIFFTING Y CONCEPT DRIFFTING (A PARTIR DE LAS DISTRIBUCIONES QUE VIMOS ENTRE ENERO Y MARZO)
-#### LO HAGO SOBRE EL DATASET COMPLETO (EN VEZ DE POR MES) SIGUIENDO LA RECOMENDACIÓN DE GUSTAVO EN ZULIP
+#### LO HAGO SOBRE EL DATASET COMPLETO (EN VEZ DE POR MES) SIGUIENDO LA RECOMENDACION DE GUSTAVO EN ZULIP
  
 
 dataset[, 9] <- ntile(dataset[, 9], 100)  
@@ -141,6 +141,62 @@ dataset[, 158] <- ntile(dataset[, 158], 100)
 
 
 ----------------------------------------------------------------------------------------------------------------------------------
+
+names(dataset)[9]<-paste("r", names(dataset)[9], sep="_")
+names(dataset)[10]<-paste("r", names(dataset)[10], sep="_")
+names(dataset)[13]<-paste("r", names(dataset)[13], sep="_")
+names(dataset)[14]<-paste("r", names(dataset)[14], sep="_")
+names(dataset)[17]<-paste("r", names(dataset)[17], sep="_")
+names(dataset)[19]<-paste("r", names(dataset)[19], sep="_")
+names(dataset)[23]<-paste("r", names(dataset)[23], sep="_")
+names(dataset)[28]<-paste("r", names(dataset)[28], sep="_")
+names(dataset)[33]<-paste("r", names(dataset)[33], sep="_")
+names(dataset)[36]<-paste("r", names(dataset)[36], sep="_")
+names(dataset)[52]<-paste("r", names(dataset)[52], sep="_")
+names(dataset)[53]<-paste("r", names(dataset)[53], sep="_")
+names(dataset)[54]<-paste("r", names(dataset)[54], sep="_")
+names(dataset)[55]<-paste("r", names(dataset)[55], sep="_")
+names(dataset)[57]<-paste("r", names(dataset)[57], sep="_")
+names(dataset)[59]<-paste("r", names(dataset)[59], sep="_")
+names(dataset)[61]<-paste("r", names(dataset)[61], sep="_")
+names(dataset)[63]<-paste("r", names(dataset)[63], sep="_")
+names(dataset)[64]<-paste("r", names(dataset)[64], sep="_")
+names(dataset)[70]<-paste("r", names(dataset)[70], sep="_")
+names(dataset)[71]<-paste("r", names(dataset)[71], sep="_")
+names(dataset)[72]<-paste("r", names(dataset)[72], sep="_")
+names(dataset)[73]<-paste("r", names(dataset)[73], sep="_")
+names(dataset)[74]<-paste("r", names(dataset)[74], sep="_")
+names(dataset)[77]<-paste("r", names(dataset)[77], sep="_")
+names(dataset)[78]<-paste("r", names(dataset)[78], sep="_")
+names(dataset)[80]<-paste("r", names(dataset)[80], sep="_")
+names(dataset)[81]<-paste("r", names(dataset)[81], sep="_")
+names(dataset)[82]<-paste("r", names(dataset)[82], sep="_")
+names(dataset)[84]<-paste("r", names(dataset)[84], sep="_")
+names(dataset)[88]<-paste("r", names(dataset)[88], sep="_")
+names(dataset)[89]<-paste("r", names(dataset)[89], sep="_")
+names(dataset)[92]<-paste("r", names(dataset)[92], sep="_")
+names(dataset)[93]<-paste("r", names(dataset)[93], sep="_")
+names(dataset)[96]<-paste("r", names(dataset)[96], sep="_")
+names(dataset)[102]<-paste("r", names(dataset)[102], sep="_")
+names(dataset)[103]<-paste("r", names(dataset)[103], sep="_")
+names(dataset)[115]<-paste("r", names(dataset)[115], sep="_")
+names(dataset)[117]<-paste("r", names(dataset)[117], sep="_")
+names(dataset)[118]<-paste("r", names(dataset)[118], sep="_")
+names(dataset)[120]<-paste("r", names(dataset)[120], sep="_")
+names(dataset)[124]<-paste("r", names(dataset)[124], sep="_")
+names(dataset)[125]<-paste("r", names(dataset)[125], sep="_")
+names(dataset)[127]<-paste("r", names(dataset)[127], sep="_")
+names(dataset)[135]<-paste("r", names(dataset)[135], sep="_")
+names(dataset)[136]<-paste("r", names(dataset)[136], sep="_")
+names(dataset)[138]<-paste("r", names(dataset)[138], sep="_")
+names(dataset)[140]<-paste("r", names(dataset)[140], sep="_")
+names(dataset)[147]<-paste("r", names(dataset)[147], sep="_")
+names(dataset)[156]<-paste("r", names(dataset)[156], sep="_")
+names(dataset)[157]<-paste("r", names(dataset)[157], sep="_")
+names(dataset)[158]<-paste("r", names(dataset)[158], sep="_")
+
+----------------------------------------------------------------------------------------------------------------------------------  
+  
 #### EXPORTO EL NUEVO CSV
   
   fwrite( dataset, 
