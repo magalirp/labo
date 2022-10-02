@@ -43,7 +43,7 @@ graficar_campo  <- function( campo, campo_clase, valores_clase )
 setwd( "/Users/magal/OneDrive/Escritorio/EYF_22" )
 
 #cargo el dataset donde voy a entrenar
-dataset  <- fread("./datasets/dataset_7110_bin.csv")
+dataset  <- fread("./datasets/dataset_7111_rank_m.csv")
 
 dataset  <- dataset[  foto_mes %in% c( 202101, 202103 ) ]
 
@@ -68,12 +68,12 @@ campos_buenos  <-  setdiff(  campos_buenos,  c( "foto_mes","clase_ternaria","cla
 
 
 dir.create( "./exp/",  showWarnings = FALSE ) 
-dir.create( "./exp/DR6130/", showWarnings = FALSE )
-setwd("./exp/DR6130/")
+dir.create( "./exp/DR7111/", showWarnings = FALSE )
+setwd("./exp/DR7111/")
 
 
 
-pdf("densidades_01_03.pdf")
+pdf("densidades7111_01_03.pdf")
 
 for( campo in  campos_buenos )
 {

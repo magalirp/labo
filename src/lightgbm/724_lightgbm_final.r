@@ -16,19 +16,20 @@ require("lightgbm")
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM <- list()
-PARAM$experimento  <- "KA7232_1"
+PARAM$experimento  <- "KA7236"
 
-PARAM$input$dataset       <- "./datasets/competencia2_2022_fe1.csv"
+PARAM$input$dataset       <- "./datasets/dataset_7111_rank_m.csv"
 PARAM$input$training      <- c( 202103 )
 PARAM$input$future        <- c( 202105 )
 
 PARAM$finalmodel$max_bin           <-     31
-PARAM$finalmodel$learning_rate     <-     0.00537759585021503  #0.0142501265
-PARAM$finalmodel$num_iterations    <-    1263  #615
-PARAM$finalmodel$num_leaves        <-   1024  #784
-PARAM$finalmodel$min_data_in_leaf  <-   1482  #5628
-PARAM$finalmodel$feature_fraction  <-      0.785047432769405  #0.8382482539
+PARAM$finalmodel$learning_rate     <-     0.0155364457441028 #0.0142501265
+PARAM$finalmodel$num_iterations    <-    578  #615
+PARAM$finalmodel$num_leaves        <-   130 #784
+PARAM$finalmodel$min_data_in_leaf  <-   5495 #5628
+PARAM$finalmodel$feature_fraction  <-      0.370312137519941  #0.8382482539
 PARAM$finalmodel$semilla           <- 562399
+PARAM$finalmodel$max_depth         <- -1
 
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
@@ -82,7 +83,8 @@ modelo  <- lgb.train( data= dtrain,
                                    num_leaves=         PARAM$finalmodel$num_leaves,
                                    min_data_in_leaf=   PARAM$finalmodel$min_data_in_leaf,
                                    feature_fraction=   PARAM$finalmodel$feature_fraction,
-                                   seed=               PARAM$finalmodel$semilla
+                                   seed=               PARAM$finalmodel$semilla,
+                                   max_depth=          PARAM$finalmodel$max_depth
                                   )
                     )
 
@@ -120,7 +122,7 @@ setorder( tb_entrega, -prob )
 
 #genero archivos con los  "envios" mejores
 #deben subirse "inteligentemente" a Kaggle para no malgastar submits
-cortes <- seq( 5000, 12000, by=500 )
+cortes <- seq( 7000, 11000, by=250 )
 for( envios  in  cortes )
 {
   tb_entrega[  , Predicted := 0L ]
