@@ -9,7 +9,8 @@ rm( list=ls() )  #remove all objects
 gc()             #garbage collection
 
 require("data.table")
-
+require("dplyr")
+require("plyr")
 
 
 #Parametros del script
@@ -100,6 +101,10 @@ AgregarVariables  <- function( dataset )
   dataset[ , vmr_mpagominimo         := vm_mpagominimo  / vm_mlimitecompra ]
 
   #Aqui debe usted agregar sus propias nuevas variables
+  
+  # Divido [121] "[23] mcuentas_saldo" Y  [34] mcuentas_saldo POR cliente_edad"
+  dataset <- dataset %>% mutate(mcuentas_edad = mcuentas_saldo / cliente_edad)
+  dataset <- dataset %>% mutate(mprestamos_personales_edad = mprestamos_personales / cliente_edad)
 
   #valvula de seguridad para evitar valores infinitos
   #paso los infinitos a NULOS
