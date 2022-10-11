@@ -22,9 +22,9 @@ require("lightgbm")
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
 #  muy pronto esto se leera desde un archivo formato .yaml
 PARAM <- list()
-PARAM$experimento  <- "EXP02"
+PARAM$experimento  <- "EXP02_"
 
-PARAM$input$dataset       <- "./datasets/dataset.csv"
+PARAM$input$dataset       <- "./exp/FE9250/dataset_deflacion.csv.gz"
 PARAM$input$training      <- c( 202101,202102,202103 ) 
 PARAM$input$future        <- c( 202105 )
 
@@ -43,7 +43,7 @@ PARAM$finalmodel$max_depth         <- -1
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
-setwd( "/Users/magal/OneDrive/Escritorio/EYF_22" )
+setwd( "~/buckets/b1/" )
 
 #cargo el dataset donde voy a entrenar
 dataset  <- fread(PARAM$input$dataset, stringsAsFactors= TRUE)
@@ -109,8 +109,8 @@ fwrite( tb_importancia,
 #--------------------------------------
 
 #imputo con nan la clase de mayo (mes donde aplico el modelo)
-
 dataset[ foto_mes==202105,  clase_ternaria  := NA ]
+dataset[ foto_mes==202105,  clase01  := NA ]
 
 #aplico el modelo a los datos sin clase
 dapply  <- dataset[ foto_mes== PARAM$input$future ]
@@ -134,7 +134,7 @@ setorder( tb_entrega, -prob )
 
 #genero archivos con los  "envios" mejores
 #deben subirse "inteligentemente" a Kaggle para no malgastar submits
-cortes <- seq( 7000, 11000, by=250 )
+cortes <- seq( 7000, 11000, by=500 )
 for( envios  in  cortes )
 {
   tb_entrega[  , Predicted := 0L ]
