@@ -40,6 +40,8 @@ PARAM$finalmodel$semilla           <- 562399
 PARAM$finalmodel$max_depth         <- -1
 
 
+# semillas: 562361-562399-562403-562409-562417
+
 #------------------------------------------------------------------------------
 #------------------------------------------------------------------------------
 #Aqui empieza el programa
@@ -83,7 +85,7 @@ dtrain  <- lgb.Dataset( data= data.matrix(  dataset[ train==1L, campos_buenos, w
                         label= dataset[ train==1L, clase01] )
 
 #genero el modelo
-#estos hiperparametros  salieron de una laaarga Optmizacion Bayesiana
+
 modelo  <- lgb.train( data= dtrain,
                       param= list( objective=          "binary",
                                    max_bin=            PARAM$finalmodel$max_bin,
@@ -134,7 +136,7 @@ setorder( tb_entrega, -prob )
 
 #genero archivos con los  "envios" mejores
 #deben subirse "inteligentemente" a Kaggle para no malgastar submits
-cortes <- seq( 7000, 11000, by=500 )
+cortes <- seq( 7000, 11500, by=500 )
 for( envios  in  cortes )
 {
   tb_entrega[  , Predicted := 0L ]
