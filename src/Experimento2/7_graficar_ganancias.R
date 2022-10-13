@@ -20,14 +20,14 @@ require("scales")
 
 # parametros experimento
 PARAM <- list()
-#PARAM$experimento  <- "EXP02_graficos"
+#PARAM$experimento  <- "EXP02_graficos_ganancias"
 
 
-PARAM$input$dataset_semilla_1   <- "./exp/EXP02_deflacion_1/EXP02_deflacion_1_7000.csv"
-PARAM$input$dataset_semilla_2   <- "./exp/EXP02_deflacion_1/EXP02_deflacion_1_7000.csv"
-PARAM$input$dataset_semilla_3   <- "./exp/EXP02_deflacion_1/EXP02_deflacion_1_7000.csv"
-PARAM$input$dataset_semilla_4   <- "./exp/EXP02_deflacion_1/EXP02_deflacion_1_7000.csv"
-PARAM$input$dataset_semilla_5   <- "./exp/EXP02_deflacion_1/EXP02_deflacion_1_7000.csv"
+PARAM$input$dataset_semilla_1   <- "./exp/EXP02_rank_guess2_ganancias/semilla_1.csv"
+PARAM$input$dataset_semilla_2   <- "./exp/EXP02_rank_guess2_ganancias/semilla_2.csv"
+PARAM$input$dataset_semilla_3   <- "./exp/EXP02_rank_guess2_ganancias/semilla_3.csv"
+PARAM$input$dataset_semilla_4   <- "./exp/EXP02_rank_guess2_ganancias/semilla_4.csv"
+PARAM$input$dataset_semilla_5   <- "./exp/EXP02_rank_guess2_ganancias/semilla_5.csv"
 
 #------------------------------------------------------------------------------------------------------------
 
@@ -77,10 +77,10 @@ data %>%
   geom_hline(aes(yintercept=ganancia_maxima), linetype='dashed') +
   
   xlim(envio_minimo,envio_maximo) +
-  ylim(19000000,max(ganancia_maxima * 1.25)) +
+  ylim(16000000,max(ganancia_maxima * 1.25)) +
   scale_y_continuous(labels = scales::label_dollar()) + 
   
-  ggtitle('Experimiento 02 - Corrección de Data Drifting | Método aplicado: DEFLACIÓN',
+  ggtitle('Experimiento 02 - Corrección de Data Drifting | Método aplicado: AT A GUESS 2',
           subtitle = '') +  
   ylab('Ganancia [$]') +
   xlab('Envios [-]') +
@@ -88,6 +88,8 @@ data %>%
   geom_label(aes(x=envio_maximo*.9,y=ganancia_maxima * 1.1,
                  label=paste0('Ganancia máxima: $', round(ganancia_maxima,0))),size=4) +
   theme_bw()
+
+
 
 
 
