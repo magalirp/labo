@@ -1,3 +1,8 @@
+
+# EXPERIMENTO 02: DATA DRIFTING
+
+# Cada dataset generado en el script 914 pasa luego por este proceso
+
 #Necesita para correr en Google Cloud
 # 256 GB de memoria RAM
 # 256 GB de espacio en el disco local
@@ -27,7 +32,7 @@ PARAM$lag1  <- TRUE
 PARAM$lag2  <- FALSE
 PARAM$Tendencias  <- TRUE
 PARAM$RandomForest  <- FALSE          #No se puede poner en TRUE para la entrega oficial de la Tercera Competencia
-PARAM$CanaritosAsesinos  <- FALSE
+PARAM$CanaritosAsesinos  <- TRUE      # Lo cambie a TRUE
 # FIN Parametros del script
 
 #------------------------------------------------------------------------------

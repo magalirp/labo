@@ -1,3 +1,8 @@
+
+
+# EXPERIMENTO 02: DATA DRIFTING
+
+
 #require vm con
 #   8 vCPU
 #  64 GB  memoria RAM

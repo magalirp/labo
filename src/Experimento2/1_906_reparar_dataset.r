@@ -1,5 +1,8 @@
 
 
+# EXPERIMENTO 02: DATA DRIFTING
+
+
 #Necesita para correr en Google Cloud
 #  32 GB de memoria RAM
 # 256 GB de espacio en el disco local

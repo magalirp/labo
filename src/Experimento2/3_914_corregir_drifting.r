@@ -1,3 +1,10 @@
+
+# EXPERIMENTO 02: DATA DRIFTING
+
+# Expotar un dataset por cada correción de DD aplicada
+
+
+
 #require vm con
 #   8 vCPU
 #  64 GB  memoria RAM
@@ -17,7 +24,7 @@ PARAM$experimento  <- "DR9141"
 
 PARAM$exp_input  <- "CA9060"
 
-#valores posibles  "ninguno" "rank_simple" , "rank_cero_fijo" , "deflacion"
+#valores posibles  "ninguno" "rank_simple" , "rank_cero_fijo" , "deflacion", "at_a_guess", "at_a_guess2"
 PARAM$metodo  <- "deflacion"
 # FIN Parametros del script
 
@@ -191,6 +198,57 @@ drift_rank_cero_fijo  <- function( campos_drift )
   }
 }
 #------------------------------------------------------------------------------
+# PROPUESTAS DE CORRECCION DE DD DE CESAR H.
+
+#------------------------------------------------------------------------------
+#El cero se transforma en cero
+#Los positivos se calculan por su lado. Se calcula la distancia de cada mes, para cada variable, entre el máximo y la mediana. 
+#Los negativos se calculan por su lado. Se calcula la distancia de cada mes, para cada variable, entre el la mediana y el mínimo.
+#Se trabaja por percentiles y mediana, en lugar de promedio, mínimos y máximos para mitigar outliers.
+#Se busca que cada línea tenga información del resumida del resto de los clientes para cada mes, y que funcione 
+# como un mojón de referencia de información mensual para que el algoritmo pueda mitigar el data drifting.
+
+drift_at_a_guess  <- function( campos_drift )
+{
+  
+  for( campo in campos_drift )
+  {
+    cat( campo, " " )
+    dataset[ get(campo) == 0, paste0(campo,"_AAG") := 0 ]
+    dataset[ get(campo) > 0, paste0(campo,"_AAG") :=   quantile(get(campo), probs=0.95) - median(get(campo)), by= foto_mes ]
+    dataset[ get(campo) < 0, paste0(campo,"_AAG") :=   median(get(campo)) - quantile(get(campo), probs=0.05), by= foto_mes ]
+    dataset[ , (campo) := NULL ]
+  }
+  
+}
+
+
+#------------------------------------------------------------------------------
+#Transformo los valores originales reemplazándolos por la distancia entre dicho valor y el extremo de ese mes (NO AGREGO VARIABLES)
+#El cero queda igual - los NA también
+#Los positivos se calculan por su lado. Se divide el valor extremo sobre el valor del campo y se sobreescribe.
+#Los negativos se calculan por su lado. Se divide el valor extremo sobre el valor del campo y se sobreescribe.
+#Se trabaja por percentiles en lugar mínimos y máximos para mitigar distorsiones generadas por outliers.
+#Se busca normalizar y homogeneizar los valores particulares de cada cliente en relación a los valores extremos de todos los clientes
+#para cada mes, tanto positivos como negativos.
+#intentando que el algoritmo pueda con esta información mitigar el data drifting.
+
+drift_at_a_guess2  <- function( campos_drift )
+{
+  
+  for( campo in campos_drift )
+  {
+    cat( campo, " " )
+    dataset[ get(campo) == 0, (campo) := 0 ]
+    dataset[ get(campo) > 0, (campo) :=   quantile(get(campo), probs=0.98) / get(campo), by= foto_mes ]
+    dataset[ get(campo) < 0, (campo) :=   (quantile(get(campo), probs=0.02) / get(campo))*-1, by= foto_mes ]
+    dataset[ , (campo) := NULL ]
+  }
+  
+}
+
+
+
 #------------------------------------------------------------------------------
 #Aqui comienza el programa
 
@@ -220,13 +278,15 @@ campos_monetarios  <- campos_monetarios[campos_monetarios %like% "^(m|Visa_m|Mas
 #aqui aplico un metodo para atacar el data drifting
 #hay que probar experimentalmente cual funciona mejor
 switch( 
-PARAM$metodo,
+  PARAM$metodo,
   "ninguno"        = cat( "No hay correccion del data drifting" ),
   "rank_simple"    = drift_rank_simple( campos_monetarios ),
   "rank_cero_fijo" = drift_rank_cero_fijo( campos_monetarios ),
-  "deflacion"      = drift_deflacion( campos_monetarios ) 
+  "deflacion"      = drift_deflacion( campos_monetarios ),
+  "at_a_guess"      = drift_at_a_guess( campos_monetarios ),
+  "at_a_guess2"     = drift_at_a_guess2( campos_monetarios ) 
+  
 )
-
 
 
 fwrite( dataset,

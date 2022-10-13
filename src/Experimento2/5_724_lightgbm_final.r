@@ -2,7 +2,7 @@
 # EXPERIMENTO 02: DATA DRIFTING
 
 # Este script se utiliza para cada uno de los dataset transformados según los distintos metodos de corrección de data drifting
-
+# Para cada dataset, se corre 5 veces (una por semilla)
 
 
 # para correr el Google Cloud
@@ -20,11 +20,11 @@ require("lightgbm")
 
 
 #defino los parametros de la corrida, en una lista, la variable global  PARAM
-#  muy pronto esto se leera desde un archivo formato .yaml
-PARAM <- list()
-PARAM$experimento  <- "EXP02_"
 
-PARAM$input$dataset       <- "./exp/FE9250/dataset_deflacion.csv.gz"
+PARAM <- list()
+PARAM$experimento  <- "EXP02_rank_cero_fijo_1" #acá se pone el nombre del dataset utilizado_ # de semilla
+
+PARAM$input$dataset       <- "./exp/FE9250/dataset_rank_cero_fijo.csv.gz"
 PARAM$input$training      <- c( 202101,202102,202103 ) 
 PARAM$input$future        <- c( 202105 )
 

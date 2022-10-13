@@ -1,5 +1,12 @@
 
 
+# EXPERIMENTO 02: DATA DRIFTING
+
+# Este script genera un gráfico con las ganancias alcanzadas en cada punto de corte para cada una de las 5 semillas.
+# Dede correrse para cada uno de los dataset corregidos con los que se esté trabajando.
+# Es el último script del proceso de revisión del exp 02.
+
+
 # limpio la memoria
 rm( list=ls() )  
 gc()             
