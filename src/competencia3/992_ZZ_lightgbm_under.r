@@ -18,7 +18,7 @@ PARAM  <- list()
 PARAM$experimento  <- "ZZ9420"
 PARAM$exp_input  <- "HT9420"
 
-PARAM$modelos  <- 2
+PARAM$modelos  <- 3
 # FIN Parametros del script
 
 ksemilla  <- 562409 #pongo mi semilla 4
@@ -152,8 +152,8 @@ for( i in  1:PARAM$modelos )
 
 
   #genero los archivos para Kaggle
-  cortes  <- seq( from=  7000,
-                  to=   11000,
+  cortes  <- seq( from=  8000,
+                  to=   10000,
                   by=     500 )
 
 
