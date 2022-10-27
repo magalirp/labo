@@ -21,7 +21,7 @@ PARAM$exp_input  <- "HT9420"
 PARAM$modelos  <- 2
 # FIN Parametros del script
 
-562409 #pongo mi semilla 4
+ksemilla  <- 562409 #pongo mi semilla 4
 
 #------------------------------------------------------------------------------
 options(error = function() { 
