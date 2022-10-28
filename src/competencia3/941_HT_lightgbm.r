@@ -33,7 +33,7 @@ options(error = function() {
 })
 #------------------------------------------------------------------------------
 
-ksemilla  <- 102191
+ksemilla  <- 562409 #pongo mi semilla 4
 
 kcrossvalidation_folds  <- 5  #En caso que se haga cross validation, se usa esta cantidad de folds
 
@@ -71,9 +71,9 @@ param_lgb_basicos  <- list(
 
 #Aqui se cargan los hiperparametros que se optimizan en la Bayesian Optimization
 hs <- makeParamSet( 
-         makeNumericParam("learning_rate",    lower=    0.005, upper=    0.3),
-         makeNumericParam("feature_fraction", lower=    0.2  , upper=    1.0),
-         makeIntegerParam("min_data_in_leaf", lower=    0L   , upper=  8000L),
+         makeNumericParam("learning_rate",    lower=    0.005, upper=    0.1), # cambie upper a 0.1
+         makeNumericParam("feature_fraction", lower=    0.2  , upper=    0.8), # cambie upper a 0.8
+         makeIntegerParam("min_data_in_leaf", lower=    4000L, upper=  9000L), #cambie lower a 4000
          makeIntegerParam("num_leaves",       lower=   16L   , upper=  2048L)
         )
 

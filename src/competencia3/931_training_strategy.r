@@ -20,12 +20,13 @@ PARAM$exp_input  <- "FE9250"
 
 PARAM$future       <- c( 202107 )
 
-PARAM$final_train  <- c( 202103, 202104, 202105 )
+PARAM$final_train  <- c(202007, 202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103, 202104, 202105 ) # N = 11 meses
 
-PARAM$train$training     <- c( 202101, 202102, 202103 )
+PARAM$train$training     <- c(202004, 202005, 202007, 202008, 202009, 202010, 202011, 202012, 202101, 202102, 202103 ) # N = 11 meses
 PARAM$train$validation   <- c( 202104 )
 PARAM$train$testing      <- c( 202105 )
-PARAM$train$undersampling  <- 1.0   # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
+
+PARAM$train$undersampling  <- 1.0  # 1.0 significa NO undersampling ,  0.1  es quedarse con el 10% de los CONTINUA
 PARAM$train$semilla  <- 102191
 # FIN Parametros del script
 
@@ -46,7 +47,7 @@ setwd( "~/buckets/b1/" )
 
 #cargo el dataset donde voy a entrenar
 #esta en la carpeta del exp_input y siempre se llama  dataset.csv.gz
-dataset_input  <- paste0( "./exp/", PARAM$exp_input, "/dataset.csv.gz" )
+dataset_input  <- paste0( "./exp/", PARAM$exp_input, "/dataset_rank_cero_fijo.csv.gz" )
 dataset  <- fread( dataset_input )
 
 
