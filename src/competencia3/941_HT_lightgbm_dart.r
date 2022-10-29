@@ -19,7 +19,7 @@ require("mlrMBO")
 
 #Parametros del script
 PARAM  <- list()
-PARAM$experimento <- "HT9410"
+PARAM$experimento <- "HT9411"
 
 PARAM$exp_input  <- "TS9310"
 # FIN Parametros del script
@@ -39,7 +39,7 @@ kcrossvalidation_folds  <- 5  #En caso que se haga cross validation, se usa esta
 
 #Hiperparametros FIJOS de  lightgbm
 param_lgb_basicos  <- list( 
-   boosting= "gbdt",               #puede ir  dart  , ni pruebe random_forest
+   boosting= "dart",               #puede ir  dart  , ni pruebe random_forest
    objective= "binary",
    metric= "custom",
    first_metric_only= TRUE,
