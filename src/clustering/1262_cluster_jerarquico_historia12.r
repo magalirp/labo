@@ -28,11 +28,21 @@ setwd( "~/buckets/b1/" )  #cambiar por la carpeta local
 
 #leo el dataset original
 # pero podria leer cualquiera que tenga Feature Engineering
-dataset  <- fread( "./datasets/competencia3_2022.csv.gz", stringsAsFactors= TRUE)
+dataset  <- fread( "./datasets/competencia3_2022.csv.gz", stringsAsFactors= TRUE) # uso el dataset rankeado (pero sin FE)
 
 #creo la carpeta donde va el experimento
 dir.create( paste0( "./exp/", PARAM$experimento, "/"), showWarnings = FALSE )
 setwd(paste0( "./exp/", PARAM$experimento, "/"))   #Establezco el Working Directory DEL EXPERIMENTO
+
+#-------------------------------------------------------------------------------
+
+
+corrplot(dataset, method = "number", shade.col = NA, tl.col = "black", tl.srt = 45,
+         addCoef.col = "black", cl.pos = "n", order = "AOE")
+
+#------------------------------------------------------------------------------
+
+# OPCION 1: SOLO CON LOS BAJA+2
 
 #me quedo SOLO con los BAJA+2
 dataset  <- dataset[  clase_ternaria =="BAJA+2"  & foto_mes>=202006  & foto_mes<=202105, ] 
