@@ -13,9 +13,9 @@ require("data.table")
 
 #Parametros del script
 PARAM  <- list()
-PARAM$experimento  <- "DR9141"
+PARAM$experimento  <- "DR4001"
 
-PARAM$exp_input  <- "CA9060"
+PARAM$exp_input  <- "CA4001"
 
 #valores posibles  "ninguno" "rank_simple" , "rank_cero_fijo" , "deflacion"
 PARAM$metodo  <- "rank_cero_fijo"
@@ -230,5 +230,5 @@ PARAM$metodo,
 
 
 fwrite( dataset,
-        file="dataset_rank_cero_fijo.csv.gz",
+        file="dataset1.csv.gz",
         sep= "," )
