@@ -68,8 +68,24 @@ if( nans_qty > 0 )
 }
 
 #------------------------------------------------------------------------------
+# GUARDO LOS BAJA+2 DEL DATASET ORIGINAL + OTROS DATASET QUE VOY A USAR MAS ADELANTE
+dataset_original  <- dataset[  clase_ternaria =="BAJA+2"  & foto_mes>=202006  & foto_mes<=202105, ] 
+
 # GUARDO LOS BAJA+2 DEL DATASET ORIGINAL
 dataset_original  <- dataset[  clase_ternaria =="BAJA+2"  & foto_mes>=202006  & foto_mes<=202105, ] 
+
+dataset_bajas_202104  <- dataset[  clase_ternaria =="BAJA+2"  & foto_mes==202104, ] 
+
+dataset$marca_seleccionado <- ifelse(dataset$numero_de_cliente %in% dataset_bajas_202104$numero_de_cliente, 1, 0)
+
+dataset$marca_seleccionado <- as.numeric(dataset$marca_seleccionado)
+
+sum(dataset$marca_seleccionado)
+
+dataset_bajas_202104_historia  <- dataset[  marca_seleccionado ==1 , ]
+
+length(unique(dataset_bajas_202104_historia$numero_de_cliente))
+
 
 #------------------------------------------------------------------------------
 # APLICO RANK CERO FIJO ANTES DE CLUSTERIZAR
