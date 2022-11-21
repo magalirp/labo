@@ -8,6 +8,8 @@
 #adios a las fantasias de k-means y las distancias métricas, cuanto tiempo perdido ...
 #corre muy lento porque la libreria RandomForest es del Jurasico y no es multithreading
 
+# REUTILIZO ESTE SCRIPT PARA CREAR UNA NUEVA VARIABLE PARA LA COMPETENCIA 4
+
 #limpio la memoria
 rm( list=ls() )  #remove all objects
 gc()             #garbage collection
@@ -18,7 +20,10 @@ require("ranger")
 
 #Parametros del script
 PARAM <- list()
-PARAM$experimento  <- "CLU1261"
+
+PARAM$exp_input  <- "FE4003" # LEVANTO EL DATASET CON FE modelo_3 (SIN RF)
+
+PARAM$experimento  <- "CLU4003"
 # FIN Parametros del script
 
 #------------------------------------------------------------------------------
@@ -26,39 +31,60 @@ PARAM$experimento  <- "CLU1261"
 
 setwd( "~/buckets/b1/" ) 
 
-#leo el dataset original
-# pero podria leer cualquiera que tenga Feature Engineering
-dataset  <- fread( "./datasets/competencia3_2022.csv.gz", stringsAsFactors= TRUE)
+#cargo el dataset
+dataset_input  <- paste0( "./exp/", PARAM$exp_input, "/dataset3.csv.gz" )
+dataset  <- fread( dataset_input )
+
 
 #creo la carpeta donde va el experimento
 dir.create( paste0( "./exp/", PARAM$experimento, "/"), showWarnings = FALSE )
 setwd(paste0( "./exp/", PARAM$experimento, "/"))   #Establezco el Working Directory DEL EXPERIMENTO
 
 
-#me quedo SOLO con los BAJA+2
-dataset  <- dataset[  clase_ternaria =="BAJA+2"  & foto_mes>=202006  & foto_mes<=202105, ]
-gc()
+#armo dos dataset: uno con los meses donde voy a entrenar y otro con los meses de validacion/ testeo / futuro
+
+dataset1  <- dataset[foto_mes %in% c(201907,201908,201909,201910,201911,201912,202101,202102,202103,202104), ]
+
+dataset2  <- dataset[foto_mes %in% c(202105,202106,202107,202108,202109), ]
+
+
+dataset1_clase_id <- data.frame(dataset1[,c("numero_de_cliente", "clase_ternaria", "foto_mes")]) 
+
+dataset2_clase_id <- data.frame(dataset2[,c("numero_de_cliente", "clase_ternaria", "foto_mes")])
+
+
+dataset1_modelo <- data.frame(dataset1[,c("ctrx_quarter", "cpayroll_trx", "mcaja_ahorro_rank", "mtarjeta_visa_consumo_rank", "ctarjeta_visa_transacciones",
+                                          "mcuentas_saldo_rank", "mrentabilidad_annual_rank", "mprestamos_personales_rank", "mactivos_margen_rank", "mpayroll_rank", "mpayroll2_rank",
+                                          "Visa_mpagominimo_rank", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos_rank",
+                                          "Visa_Fvencimiento", "mrentabilidad_rank", "Visa_msaldototal_rank", "mcuenta_corriente_rank",
+                                          "Visa_fechaalta", "mcomisiones_mantenimiento_rank", "Visa_mfinanciacion_limite_rank",
+                                          "mtransferencias_recibidas_rank", "cliente_antiguedad",
+                                          "mcaja_ahorro_dolares_rank", "cproductos", "mcomisiones_otras_rank", "thomebanking", "mcuenta_debitos_automaticos_rank",
+                                          "mcomisiones_rank", "ccomisiones_otras", "mtransferencias_emitidas_rank",
+                                          "mpagomiscuentas_rank", "vm_mfinanciacion_limite_rank", "vm_msaldototal_rank","vm_mconsumototal_rank","numero_de_cliente")])
 
 #quito los nulos para que se pueda ejecutar randomForest,  Dios que algoritmo prehistorico ...
-dataset  <- na.roughfix( dataset )
+dataset1_modelo  <- na.roughfix( dataset1_modelo )
+#dataset2  <- na.roughfix( dataset2 )
 
 
 #los campos que arbitrariamente decido considerar para el clustering
 #por supuesto, se pueden cambiar
-campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro", "mtarjeta_visa_consumo", "ctarjeta_visa_transacciones",
-                     "mcuentas_saldo", "mrentabilidad_annual", "mprestamos_personales", "mactivos_margen", "mpayroll",
-                     "Visa_mpagominimo", "Master_fechaalta", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos",
-                     "Visa_Fvencimiento", "mrentabilidad", "Visa_msaldototal", "Master_Fvencimiento", "mcuenta_corriente",
-                     "Visa_mpagospesos", "Visa_fechaalta", "mcomisiones_mantenimiento", "Visa_mfinanciacion_limite",
-                     "mtransferencias_recibidas", "cliente_antiguedad", "Visa_mconsumospesos", "Master_mfinanciacion_limite",
-                     "mcaja_ahorro_dolares", "cproductos", "mcomisiones_otras", "thomebanking", "mcuenta_debitos_automaticos",
-                     "mcomisiones", "Visa_cconsumos", "ccomisiones_otras", "Master_status", "mtransferencias_emitidas",
-                     "mpagomiscuentas")
+campos_buenos  <- c( "ctrx_quarter", "cpayroll_trx", "mcaja_ahorro_rank", "mtarjeta_visa_consumo_rank", "ctarjeta_visa_transacciones",
+                     "mcuentas_saldo_rank", "mrentabilidad_annual_rank", "mprestamos_personales_rank", "mactivos_margen_rank", "mpayroll_rank", "mpayroll2_rank",
+                     "Visa_mpagominimo_rank", "cliente_edad", "chomebanking_transacciones", "Visa_msaldopesos_rank",
+                     "Visa_Fvencimiento", "mrentabilidad_rank", "Visa_msaldototal_rank", "mcuenta_corriente_rank",
+                     "Visa_fechaalta", "mcomisiones_mantenimiento_rank", "Visa_mfinanciacion_limite_rank",
+                     "mtransferencias_recibidas_rank", "cliente_antiguedad",
+                     "mcaja_ahorro_dolares_rank", "cproductos", "mcomisiones_otras_rank", "thomebanking", "mcuenta_debitos_automaticos_rank",
+                     "mcomisiones_rank", "ccomisiones_otras", "mtransferencias_emitidas_rank",
+                     "mpagomiscuentas_rank", "vm_mfinanciacion_limite_rank", "vm_msaldototal_rank","vm_mconsumototal_rank","numero_de_cliente" )
 
 
+# DATASET 1
 
 #Ahora, a esperar mucho con este algoritmo del pasado que NO correr en paralelo, patetico
-modelo  <- randomForest( x= dataset[  , campos_buenos, with=FALSE ], 
+modelo  <- randomForest( x= dataset1_modelo, 
                          y= NULL, 
                          ntree= 1000, #se puede aumentar a 10000
                          proximity= TRUE, 
@@ -75,6 +101,7 @@ plot( hclust.rf )
 dev.off()
 
 
+
 #genero 7 clusters
 h <- 20
 distintos <- 0
@@ -83,10 +110,10 @@ while(  h>0  &  !( distintos >=6 & distintos <=7 ) )
 {
   h <- h - 1 
   rf.cluster  <- cutree( hclust.rf, h)
-
+  
   dataset[  , cluster2 := NULL ]
   dataset[  , cluster2 := rf.cluster ]
-
+  
   distintos  <- nrow( dataset[  , .N,  cluster2 ] )
   cat( distintos, " " )
 }
